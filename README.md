@@ -37,3 +37,8 @@ uv pip install torch torchvision --index-url https://download.pytorch.org/whl/cp
 # Other deps
 uv pip install kaggle numpy pandas tqdm python-dotenv ultralytics scikit-learn
 ```
+
+Create .env and add your Kaggle API token
+```bash
+cp .env.example .env
+```
