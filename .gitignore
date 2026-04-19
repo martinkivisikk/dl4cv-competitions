@@ -1,0 +1,16 @@
+.zip/
+*/.venv/
+*/venv/
+.ipynb_checkpoints/
+runs/
+*.jpg
+*.png
+*.pt
+*.xml
+*.txt
+*.cache
+*.JPG
+*.csv
+*.zip
+*.json
+.env
