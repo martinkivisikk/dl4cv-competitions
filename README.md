@@ -35,10 +35,16 @@ uv pip install torch torchvision --index-url https://download.pytorch.org/whl/ro
 uv pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu
 
 # Other deps
-uv pip install kaggle numpy pandas tqdm python-dotenv ultralytics scikit-learn
+uv pip install kaggle numpy pandas tqdm python-dotenv ultralytics scikit-learn jupyter
 ```
 
 Create .env and add your Kaggle API token
 ```bash
 cp .env.example .env
 ```
+
+Start jupyter using
+```bash
+jupyter lab
+```
+
