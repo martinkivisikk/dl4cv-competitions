@@ -1,4 +1,3 @@
-
 path: dataset/obj
 train: images/train
 val: images/train
