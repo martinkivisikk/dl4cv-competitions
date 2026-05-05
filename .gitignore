@@ -14,3 +14,4 @@ runs/
 *.zip
 *.json
 .env
+football/football.yaml

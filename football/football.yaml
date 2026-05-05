@@ -1,6 +1,0 @@
-path: /home/martin/traffic-sign-detection/football/yolo_dataset
-train: images/train
-val: images/val
-
-nc: 3
-names: ["Player", "Referee", "Goalkeeper"]
