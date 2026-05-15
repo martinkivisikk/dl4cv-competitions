@@ -58,21 +58,32 @@ The effective approach was to treat pretrained backbones purely as **frozen feat
 
 ---
 
-## 3. [Competition name]
+## 3. Estonian Football Object Detection
 
 ### Problem
 
-[description]
+Detect players, referees, and goalkeepers in images from Estonian top-league football matches. All images are 1920×1080. The dataset contains 574 training images and 150 held-out test images. Submissions are evaluated with mAP@[0.50:0.95], the COCO-style metric averaged across IoU thresholds from 0.50 to 0.95.
 
 ### Approach
 
-[approach]
+We experimented with two detector families.
+
+**YOLOv8n (baseline).** We trained YOLOv8n at imgsz=1280 with cosine LR decay, mosaic augmentation, and patience=20 early stopping. The run converged at epoch 26 out of 50.
+
+**RT-DETR-l.** We then tried RT-DETR-l at imgsz=640 for 13 epochs. Despite strong validation numbers, test performance fell below YOLOv8n, likely because the smaller input resolution loses detail on distant players in the large 1920×1080 frames.
+
+**YOLOv8s.** We switched to YOLOv8s at imgsz=1280 to get more model capacity while keeping full resolution. Training ran for 13 epochs.
 
 ### Results
 
-| Model | Score |
-|---|---|
-| [model] | [score] |
+| Model | Val mAP@50 | Val mAP@50-95 | Public test mAP@50-95 |
+|---|---|---|---|
+| YOLOv8n, imgsz=1280 | — | — | 0.258 |
+| RT-DETR-l, imgsz=640 (13 epochs) | 0.830 | 0.470 | 0.237 |
+| YOLOv8s, imgsz=1280 (12 epochs) | 0.804 | 0.460 | **0.265** |
+| Competition baseline | — | — | 0.449 |
+
+Input resolution at 1280 consistently outperformed 640 for this dataset. The small training set (574 images) was the main limiting factor throughout.
 
 ---
 
@@ -100,7 +111,7 @@ The effective approach was to treat pretrained backbones purely as **frozen feat
 |---|---|---|---|
 | Traffic sign detection | 0.935 | 0.944 | −0.009 |
 | Vehicle type classification | 0.694 | 0.790 | −0.096 |
-| [Competition 3] | | | |
+| Football object detection | 0.265 | 0.449 | −0.184 |
 | [Competition 4] | | | |
 
 The key challenge was working with limited training data. Transformer-based architectures (RT-DETR) proved more competitive than compact CNN-based detectors on the traffic sign task, while careful regularisation and early stopping were critical to avoid overfitting.
