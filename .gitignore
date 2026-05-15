@@ -4,6 +4,9 @@
 .ipynb_checkpoints/
 runs/
 *.jpg
+*.jpeg
+*.webp
+*.bak
 *.png
 *.pt
 *.xml
@@ -16,3 +19,4 @@ runs/
 .env
 football/football.yaml
 __pycache__/
+*.pth

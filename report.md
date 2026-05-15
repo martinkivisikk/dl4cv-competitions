@@ -33,21 +33,28 @@ RT-DETR-l achieved the best test score (0.935), narrowing the gap to the 0.944 c
 
 ---
 
-## 2. [Competition name]
+## 2. Vehicle Type Classification
 
 ### Problem
 
-[description]
+Classify 10 vehicle body types (SUV, bus, convertible, coupe, hatchback, pickup, sedan, station wagon, truck, van) from 224×224 images. The dataset contains 802 labelled training images (~80 per class) and 201 unlabelled test images. Submissions are evaluated with accuracy.
 
 ### Approach
 
-[approach]
+With only ~80 images per class, fine-tuning a pretrained CNN end-to-end led to severe overfitting: the model memorised the training distribution (sourced at 224×224) and failed on test images (sourced at 256×256). Full fine-tuning of EfficientNet-B2 achieved 94% validation accuracy but only 48% on the public test set; staged fine-tuning (frozen backbone then partial unfreeze) gave the same test score.
+
+The effective approach was to treat pretrained backbones purely as **frozen feature extractors** and train a lightweight classifier on the extracted features. We extracted features from both EfficientNet-B2 (1408-dim) and ViT-B/16 (768-dim), applied 4-view feature-level TTA (original, H-flip, center-crop, H-flip+crop), concatenated the two feature vectors, and trained a logistic regression on the combined 2176-dim representation. This avoids distorting generalised ImageNet features with the small, domain-specific training set.
 
 ### Results
 
-| Model | Score |
-|---|---|
-| [model] | [score] |
+| Model | Val acc | Public test acc |
+|---|---|---|
+| EfficientNet-B2, full fine-tune (30 epochs) | 0.943 | 0.484 |
+| EfficientNet-B2, staged fine-tune | 0.943 | 0.484 |
+| EfficientNet-B2 features + LogReg | 0.930 | 0.581 |
+| EfficientNet-B2 + ViT-B/16 features + TTA + LogReg | 0.931 | 0.677 |
+| EfficientNet-B2 + ViT-B/16 features + TTA + LogReg (full train) | — | **0.694** |
+| Competition baseline | — | 0.790 |
 
 ---
 
@@ -92,7 +99,7 @@ RT-DETR-l achieved the best test score (0.935), narrowing the gap to the 0.944 c
 | Competition | Best score | Baseline | Δ |
 |---|---|---|---|
 | Traffic sign detection | 0.935 | 0.944 | −0.009 |
-| [Competition 2] | | | |
+| Vehicle type classification | 0.694 | 0.790 | −0.096 |
 | [Competition 3] | | | |
 | [Competition 4] | | | |
 
